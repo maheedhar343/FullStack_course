@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHub - Home</title>
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="showPage('home')">Home</a></li>
+            <li><a href="#register" onclick="showPage('register')">Register</a></li>
+            <li><a href="#login" onclick="showPage('login')">Login</a></li>
+            <li><a href="#catalog" onclick="showPage('catalog')">Catalog</a></li>
+            <li><a href="#cart" onclick="showPage('cart')">Cart <span id="cartCount">(0)</span></a></li>
+        </ul>
+    </nav>
+
+    
+    <!-- Cart Page -->
+    <div id="cart" class="page-content">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>Shopping Cart</h1>
+            </div>
+            <div id="cartContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Product Data
+        const products = [
+            { id: 1, name: 'Wireless Headphones', price: 79.99, icon: '🎧' },
+            { id: 2, name: 'Smart Watch', price: 199.99, icon: '⌚' },
+            { id: 3, name: 'Laptop Stand', price: 49.99, icon: '💻' },
+            { id: 4, name: 'Mechanical Keyboard', price: 129.99, icon: '⌨️' },
+            
+        ];
+
+        // Cart State
+        let cart = [];
+
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            if (pageId === 'catalog') {
+                renderProducts();
+            } else if (pageId === 'cart') {
+                renderCart();
+            }
+        }
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">${product.icon}</div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>High quality product for your needs</p>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add to Cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            updateCartCount();
+            alert(`${product.name} added to cart!`);
+        }
+
+        // Update Cart Count
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = `(${count})`;
+        }
+
+        // Render Cart
+        function renderCart() {
+            const cartContent = document.getElementById('cartContent');
+            
+            if (cart.length === 0) {
+                cartContent.innerHTML = '<div class="empty-cart">Your cart is empty. Start shopping!</div>';
+                return;
+            }
+
+            const cartItems = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="cart-item-image">${item.icon}</div>
+                    <div class="cart-item-info">
+                        <h3>${item.name}</h3>
+                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.1;
+            const total = subtotal + tax;
+
+            cartContent.innerHTML = `
+                <div class="cart-items">${cartItems}</div>
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (10%):</span>
+                        <span>$${tax.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span>$${total.toFixed(2)}</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="checkout()">Proceed to Checkout</button>
+                </div>
+            `;
+        }
+
+        // Update Quantity
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartCount();
+            renderCart();
+        }
+
+        // Remove Item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCart();
+        }
+
+        // Handle Registration
+        function handleRegister(e) {
+            e.preventDefault();
+            alert('Registration successful! You can now login.');
+            showPage('login');
+        }
+
+        // Handle Login
+        function handleLogin(e) {
+            e.preventDefault();
+            alert('Login successful! Welcome back!');
+            showPage('catalog');
+        }
+
+        // Checkout
+        function checkout() {
+            alert('Thank you for your order! Total: $' + cart.reduce((sum, item) => sum + (item.price * item.quantity * 1.1), 0).toFixed(2));
+            cart = [];
+            updateCartCount();
+            showPage('home');
+        }
+
+        // Initialize
+        updateCartCount();
+    </script>
+</body>
+</html>

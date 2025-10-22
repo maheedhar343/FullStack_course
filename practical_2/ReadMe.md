@@ -2,8 +2,8 @@
 
  Make the web application responsive using Bootstrap framework.
 
-1. Create project folder: `bootstrap-shopping-cart` Inside it
-   create the following subfolders:`css/js/`
+1. Create project folder `bootstrap-shopping-cart` Inside it
+   create the following subfolders:`css/`and `js/`
 2. Set Up Bootstrap 5
 
 * In `index.html`, add the Bootstrap 5 CDN links inside the `<head>` and just before `</body>`:

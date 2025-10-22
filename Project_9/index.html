@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 9 - Node.js Server & Modules</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    h1, h2, h3 {
+      color: #0d47a1;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #c9d1d9;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Consolas', monospace;
+    }
+    .step {
+      margin-bottom: 30px;
+      padding-left: 20px;
+      border-left: 4px solid #0d47a1;
+    }
+    .output {
+      background: #e8f5e9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🟢 Practical 9: Custom Node.js Server & Modules</h1>
+    <p>Exploring HTTP, OS, Path, and Event modules in Node.js using Indian names.</p>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <h2>Step 1: Initialize Project</h2>
+      <pre><code>mkdir NodeServerDemo
+cd NodeServerDemo
+npm init -y</code></pre>
+      <div class="output">
+        <strong>Output:</strong> Created <code>package.json</code> and project folder.
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <h2>Step 2: Create server.js with HTTP Module</h2>
+      <pre><code>const http = require("http");
+const os = require("os");
+const path = require("path");
+const EventEmitter = require("events");
+
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+
+myEmitter.on("serverStart", () =&gt; console.log("✅ Server started..."));
+
+const server = http.createServer((req, res) =&gt; {
+  res.writeHead(200, {"Content-Type": "text/html"});
+
+  if(req.url === "/") {
+    res.write("&lt;h2&gt;👋 Welcome to Node.js Custom Server&lt;/h2&gt;");
+    res.write("&lt;p&gt;Developed by Aarav Sharma&lt;/p&gt;");
+  } else if(req.url === "/os") {
+    res.write("&lt;h3&gt;🖥 OS Info&lt;/h3&gt;");
+    res.write(`Platform: ${os.platform()}&lt;br&gt;`);
+    res.write(`Architecture: ${os.arch()}&lt;br&gt;`);
+    res.write(`Hostname: ${os.hostname()}&lt;br&gt;`);
+    res.write(`Free Memory: ${os.freemem()} bytes&lt;br&gt;`);
+  } else if(req.url === "/path") {
+    const samplePath = "/Users/aarav/Documents/server.js";
+    res.write("&lt;h3&gt;📁 Path Module&lt;/h3&gt;");
+    res.write(`Directory: ${path.dirname(samplePath)}&lt;br&gt;`);
+    res.write(`Base Name: ${path.basename(samplePath)}&lt;br&gt;`);
+    res.write(`Extension: ${path.extname(samplePath)}&lt;br&gt;`);
+  } else if(req.url === "/event") {
+    myEmitter.emit("customEvent", "Event executed!");
+    res.write("&lt;h3&gt;⚡ Event Module&lt;/h3&gt;");
+    res.write("Custom event triggered!");
+  } else {
+    res.writeHead(404);
+    res.write("&lt;h3&gt;❌ 404 Not Found&lt;/h3&gt;");
+  }
+
+  res.end();
+});
+
+myEmitter.on("customEvent", msg =&gt; console.log("EVENT LOG:", msg));
+
+server.listen(5000, () =&gt; {
+  console.log("🚀 Server running at http://localhost:5000");
+  myEmitter.emit("serverStart");
+});</code></pre>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <h2>Step 3: Run the Server</h2>
+      <pre><code>node server.js</code></pre>
+      <div class="output">
+        <strong>Console Output:</strong><br>
+        🚀 Server running at http://localhost:5000<br>
+        ✅ Server started successfully...
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <h2>Step 4: Open Browser and Test URLs</h2>
+      <ul>
+        <li><code>http://localhost:5000/</code> - Home page</li>
+        <li><code>http://localhost:5000/os</code> - OS Module Info</li>
+        <li><code>http://localhost:5000/path</code> - Path Module Info</li>
+        <li><code>http://localhost:5000/event</code> - Event Module Example</li>
+      </ul>
+      <div class="output">
+        <strong>Sample Output for /os:</strong><br>
+        🖥 OS Info<br>
+        Platform: win32<br>
+        Architecture: x64<br>
+        Hostname: Aarav-PC<br>
+        Free Memory: 4312412160 bytes
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <h2>Step 5: Event Module Demo</h2>
+      <div class="output">
+        <strong>Console Output when visiting /event:</strong><br>
+        EVENT LOG: Event executed!
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <h2>Step 6: Summary</h2>
+      <ul>
+        <li>✅ Created a custom HTTP server using Node.js.</li>
+        <li>✅ Explored <code>os</code> module to get system info.</li>
+        <li>✅ Explored <code>path</code> module to manipulate file paths.</li>
+        <li>✅ Used <code>events</code> module to create custom events.</li>
+        <li>✅ Practiced routing to handle multiple URLs.</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>

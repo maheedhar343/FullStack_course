@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Tracking Project Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro {
+            background: #f8f9fa;
+            border-left: 4px solid #fa709a;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+        
+        .intro h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .intro p {
+            color: #4a5568;
+            line-height: 1.8;
+        }
+        
+        .step {
+            margin-bottom: 40px;
+            border-left: 4px solid #fa709a;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            background: #fa709a;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);
+        }
+        
+        .step-title {
+            font-size: 22px;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .step-description {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .output-box {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.8;
+            overflow-x: auto;
+            border: 2px solid #30363d;
+        }
+        
+        .output-title {
+            background: #2d3748;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .success {
+            color: #3fb950;
+            font-weight: bold;
+        }
+        
+        .info {
+            color: #58a6ff;
+        }
+        
+        .warning {
+            color: #ffa657;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+        
+        .note strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .file-structure {
+            background: #f6f8fa;
+            border: 2px solid #d0d7de;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+        
+        .file-item {
+            padding: 5px 0;
+            color: #24292f;
+        }
+        
+        .file-icon {
+            color: #fa709a;
+            margin-right: 8px;
+        }
+        
+        .browser-window {
+            border: 2px solid #d0d7de;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 15px 0;
+            background: white;
+        }
+        
+        .browser-header {
+            background: #f6f8fa;
+            padding: 10px 15px;
+            border-bottom: 1px solid #d0d7de;
+            display: flex;
+            align-items: center;
+        }
+        
+        .browser-dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 15px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        
+        .browser-url {
+            flex: 1;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #d0d7de;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .browser-content {
+            padding: 20px;
+            min-height: 150px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: #fa709a;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e1e4e8;
+            color: #24292f;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f6f8fa;
+        }
+        
+        .feature-box {
+            background: white;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .feature-box h4 {
+            color: #fa709a;
+            margin-bottom: 10px;
+        }
+        
+        .feature-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-box li {
+            padding: 8px 0;
+            color: #4a5568;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #3fb950;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Experiment 8: Session Tracking Mechanisms</h1>
+            <p>Exploring Cookies and HTTP Sessions for User Transaction History</p>
+        </div>
+        
+        <div class="content">
+            <!-- Introduction -->
+            <div class="intro">
+                <h3>📚 What is Session Tracking?</h3>
+                <p>Session tracking is a mechanism to maintain the state of user interactions across multiple HTTP requests. Since HTTP is stateless (each request is independent), we need special techniques to remember user information like login status, shopping cart items, or browsing history.</p>
+            </div>
+
+            <!-- Comparison Table -->
+            <h2 style="color: #2d3748; margin-bottom: 20px;">🔍 Cookies vs HTTP Session</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Cookies</th>
+                        <th>HTTP Session</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Storage Location</strong></td>
+                        <td>Client-side (Browser)</td>
+                        <td>Server-side (Server Memory)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Size</strong></td>
+                        <td>Limited (4KB per cookie)</td>
+                        <td>Larger (Server memory dependent)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Security</strong></td>
+                        <td>Less secure (visible to user)</td>
+                        <td>More secure (hidden from user)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lifetime</strong></td>
+                        <td>Set by developer (can be persistent)</td>
+                        <td>Until session timeout or browser close</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Type</strong></td>
+                        <td>Only text/string</td>
+                        <td>Any Java object</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use Case</strong></td>
+                        <td>Remember user preferences, "Remember Me"</td>
+                        <td>Login status, shopping cart, user data</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <h2 class="step-title">Create Project Structure</h2>
+                <p class="step-description">
+                    Set up a simple web application to demonstrate both Cookies and HTTP Session tracking.
+                </p>
+                
+                <div class="output-title">📤 Expected Output: Project Structure</div>
+                <div class="file-structure">
+SessionTrackingDemo/<br>
+├── <span class="file-icon">📁</span> src/<br>
+│   └── <span class="file-icon">📁</span> com/session/servlets/<br>
+│       ├── <span class="file-icon">📄</span> CookieServlet.java<br>
+│       ├── <span class="file-icon">📄</span> SessionServlet.java<br>
+│       └── <span class="file-icon">📄</span> LoginServlet.java<br>
+├── <span class="file-icon">📁</span> WebContent/<br>
+│   ├── <span class="file-icon">📁</span> WEB-INF/<br>
+│   │   └── <span class="file-icon">📄</span> web.xml<br>
+│   ├── <span class="file-icon">📄</span> index.html<br>
+│   ├── <span class="file-icon">📄</span> cookieDemo.html<br>
+│   ├── <span class="file-icon">📄</span> sessionDemo.html<br>
+│   ├── <span class="file-icon">📄</span> login.html<br>
+│   └── <span class="file-icon">📄</span> dashboard.jsp<br>
+                </div>
+                
+                <div class="note">
+                    <strong>📝 Note:</strong>
+                    This project demonstrates both cookie-based and session-based tracking in separate, simple examples.
+                </div>
+            </div>
+
+            <!-- Step 2: Cookie Demo -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <h2 class="step-title">Implement Cookie-Based Tracking</h2>
+                <p class="step-description">
+                    Create a servlet that stores user preferences using cookies. Cookies are small pieces of data stored in the user's browser.
+                </p>
+                
+                <div class="feature-box">
+                    <h4>How Cookies Work:</h4>
+                    <ul>
+                        <li>Server creates a cookie with a name and value</li>
+                        <li>Cookie is sent to the browser via HTTP response</li>
+                        <li>Browser stores the cookie</li>
+                        <li>Browser sends the cookie back with every request</li>
+                        <li>Server reads the cookie to remember user information</li>
+                    </ul>
+                </div>
+                
+                <div class="output-title">📤 Expected Output: Cookie Demo Page</div>
+                <div class="browser-window">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="browser-url">http://localhost:8080/SessionTrackingDemo/cookieDemo.html</div>
+                    </div>
+                    <div class="browser-content">
+                        <h2 style="color: #2d3748; margin-bottom: 20px;">Cookie Demo</h2>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                            <p style="margin-bottom: 15px;"><strong>Enter your name:</strong></p>
+                            <input type="text" placeholder="Your name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 15px;">
+                            <button style="background: #fa709a; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Save to Cookie</button>
+                            <button style="background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Get Cookie Value</button>
+                            <button style="background: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Delete Cookie</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="output-title">📤 Console Output: Cookie Operations</div>
+                <div class="output-box">
+<span class="info">--- Cookie Created ---</span><br>
+<span class="success">✓ Cookie Name: username</span><br>
+<span class="success">✓ Cookie Value: John Doe</span><br>
+<span class="success">✓ Max Age: 3600 seconds (1 hour)</span><br>
+<span class="success">✓ Cookie sent to browser</span><br><br>
+
+<span class="info">--- Reading Cookie ---</span><br>
+<span class="success">✓ Cookie found: username = John Doe</span><br>
+<span class="info">Welcome back, John Doe!</span><br><br>
+
+<span class="info">--- Cookie Deleted ---</span><br>
+<span class="success">✓ Cookie 'username' removed</span><br>
+<span class="success">✓ Max Age set to 0</span>
+                </div>
+            </div>
+
+            <!-- Step 3: Session Demo -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <h2 class="step-title">Implement HTTP Session Tracking</h2>
+                <p class="step-description">
+                    Create a servlet that uses HTTP Session to track user login and maintain shopping cart data.
+                </p>
+                
+                <div class="feature-box">
+                    <h4> How HTTP Sessions Work:</h4>
+                    <ul>
+                        <li>Server creates a unique session ID for each user</li>
+                        <li>Session ID is stored in a cookie (JSESSIONID)</li>
+                        <li>Server maintains session data in memory</li>
+                        <li>Session data is accessible across multiple requests</li>
+                        <li>Session expires after timeout or when browser closes</li>
+                    </ul>
+                </div>
+                
+                <div class="output-title">📤 Expected Output: Login Page</div>
+                <div class="browser-window">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="browser-url">http://localhost:8080/SessionTrackingDemo/login.html</div>
+                    </div>
+                    <div class="browser-content">
+                        <h2 style="color: #2d3748; margin-bottom: 20px;"> Login Page</h2>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; max-width: 400px;">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Username:</label>
+                                <input type="text" placeholder="Enter username" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Password:</label>
+                                <input type="password" placeholder="Enter password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            </div>
+                            <button style="background: #fa709a; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Login</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="output-title">📤 Console Output: Session Creation</div>
+                <div class="output-box">
+<span class="info">--- User Login Request ---</span><br>
+<span class="info">Username: john_doe</span><br>
+<span class="info">Password: ******</span><br><br>
+
+<span class="success">✓ Authentication successful</span><br>
+<span class="success">✓ Session created: JSESSIONID=A1B2C3D4E5F6G7H8</span><br>
+<span class="success">✓ Session attribute set: username = john_doe</span><br>
+<span class="success">✓ Session attribute set: loginTime = 2025-10-22 14:30:00</span><br>
+<span class="success">✓ Session timeout: 30 minutes</span><br><br>
+
+<span class="info">Redirecting to dashboard...</span>
+                </div>
+            </div>
+
+            <!-- Step 4: Dashboard with Session Data -->
+            <div class="step">
+                <div class="step-number">4</div>
+                <h2 class="step-title">Display Session Information on Dashboard</h2>
+                <p class="step-description">
+                    Create a dashboard that displays user information stored in the session and tracks page visits.
+                </p>
+                
+                <div class="output-title">📤 Expected Output: User Dashboard</div>
+                <div class="browser-window">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="browser-url">http://localhost:8080/SessionTrackingDemo/dashboard.jsp</div>
+                    </div>
+                    <div class="browser-content">
+                        <h2 style="color: #2d3748; margin-bottom: 20px;">📊 User Dashboard</h2>
+                        
+                        <div style="background: #e7f5ff; border-left: 4px solid #1971c2; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                            <h3 style="color: #1971c2; margin-bottom: 10px;">Session Information</h3>
+                            <p style="margin: 5px 0;"><strong>Username:</strong> john_doe</p>
+                            <p style="margin: 5px 0;"><strong>Session ID:</strong> A1B2C3D4E5F6G7H8</p>
+                            <p style="margin: 5px 0;"><strong>Login Time:</strong> 2025-10-22 14:30:00</p>
+                            <p style="margin: 5px 0;"><strong>Session Created:</strong> 5 minutes ago</p>
+                            <p style="margin: 5px 0;"><strong>Page Visits:</strong> 3</p>
+                        </div>
+                        
+                        <div style="background: #fff3bf; border-left: 4px solid #f59f00; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                            <h3 style="color: #f59f00; margin-bottom: 10px;">Transaction History</h3>
+                            <ul style="margin-left: 20px;">
+                                <li>Viewed product: Laptop - 14:32:15</li>
+                                <li>Added to cart: Laptop - 14:33:20</li>
+                                <li>Viewed product: Mouse - 14:34:05</li>
+                            </ul>
+                        </div>
+                        
+                        <button style="background: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+                    </div>
+                </div>
+                
+                <div class="output-title">📤 Console Output: Session Access</div>
+                <div class="output-box">
+<span class="info">--- Dashboard Access ---</span><br>
+<span class="success">✓ Session found: A1B2C3D4E5F6G7H8</span><br>
+<span class="success">✓ User authenticated: john_doe</span><br>
+<span class="info">Retrieving session attributes...</span><br>
+  - username: john_doe<br>
+  - loginTime: 2025-10-22 14:30:00<br>
+  - pageVisits: 3<br><br>
+
+<span class="info">Updating page visit count: 3 → 4</span><br>
+<span class="success">✓ Session updated successfully</span>
+                </div>
+            </div>
+
+            <!-- Step 5: Session Invalidation -->
+            <div class="step">
+                <div class="step-number">5</div>
+                <h2 class="step-title">Implement Logout (Session Invalidation)</h2>
+                <p class="step-description">
+                    When user logs out, destroy the session to clear all stored data and end the user's session.
+                </p>
+                
+                <div class="output-title">📤 Console Output: Logout Process</div>
+                <div class="output-box">
+<span class="info">--- Logout Request ---</span><br>
+<span class="info">User: john_doe</span><br>
+<span class="info">Session ID: A1B2C3D4E5F6G7H8</span><br><br>
+
+<span class="warning">Invalidating session...</span><br>
+<span class="success">✓ Session invalidated successfully</span><br>
+<span class="success">✓ All session attributes cleared</span><br>
+<span class="success">✓ Session destroyed</span><br><br>
+
+<span class="info">Redirecting to login page...</span>
+                </div>
+                
+                <div class="browser-window">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="browser-url">http://localhost:8080/SessionTrackingDemo/login.html?logout=true</div>
+                    </div>
+                    <div class="browser-content">
+                        <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 4px; color: #155724; margin-bottom: 20px;">
+                            <strong>✓ Success!</strong> You have been logged out successfully.
+                        </div>
+                        <h2 style="color: #2d3748;"> Login Page</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Practical Use Cases -->
+            <div class="step">
+                <div class="step-number">6</div>
+                <h2 class="step-title">Real-World Use Cases Demonstrated</h2>
+                <p class="step-description">
+                    Both session tracking mechanisms are used together in real applications for different purposes.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div class="feature-box">
+                        <h4> Cookie Use Cases:</h4>
+                        <ul>
+                            <li>"Remember Me" functionality</li>
+                            <li>User language preference</li>
+                            <li>Theme selection (dark/light mode)</li>
+                            <li>Recently viewed items</li>
+                            <li>Analytics tracking</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-box">
+                        <h4> Session Use Cases:</h4>
+                        <ul>
+                            <li>User authentication/login status</li>
+                            <li>Shopping cart items</li>
+                            <li>Form data across pages</li>
+                            <li>User permissions/roles</li>
+                            <li>Temporary user preferences</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="output-title">📤 Combined Example: E-commerce Site</div>
+                <div class="output-box">
+<span class="info">--- E-commerce Session Tracking ---</span><br><br>
+
+<span style="color: #ffa657;">COOKIES (Client-Side):</span><br>
+  ✓ theme: dark<br>
+  ✓ language: en<br>
+  ✓ recentProducts: [101, 205, 308]<br><br>
+
+<span style="color: #58a6ff;">HTTP SESSION (Server-Side):</span><br>
+  ✓ userId: 12345<br>
+  ✓ username: john_doe<br>
+  ✓ isLoggedIn: true<br>
+  ✓ cartItems: [<br>
+      {productId: 101, name: "Laptop", quantity: 1, price: 999.99},<br>
+      {productId: 205, name: "Mouse", quantity: 2, price: 25.50}<br>
+    ]<br>
+  ✓ totalAmount: 1050.99<br><br>
+
+<span class="success">Both mechanisms work together for complete user experience!</span>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div style="background: #f6f8fa; border-radius: 8px; padding: 30px; margin-top: 40px; border: 2px solid #d0d7de;">
+                <h2 style="color: #2d3748; margin-bottom: 20px;">📊 Key Takeaways</h2>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h3 style="color: #fa709a; margin-bottom: 15px;">🎯 What You Learned:</h3>
+                    <ul style="color: #4a5568; line-height: 2; list-style-position: inside;">
+                        <li><strong>Cookies:</strong> Store small data on client-side, persist across sessions</li>
+                        <li><strong>HTTP Sessions:</strong> Store larger data on server-side, secure and temporary</li>
+                        <li><strong>Session ID:</strong> Unique identifier linking browser to server session</li>
+                        <li><strong>Session Lifecycle:</strong> Create → Use → Invalidate/Timeout</li>
+                        <li><strong>Security:</strong> Sessions are more secure than cookies for sensitive data</li>
+                        <li><strong>Practical Applications:</strong> Login systems, shopping carts, user preferences</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px;">
+                    <h3 style="color: #fa709a; margin-bottom: 15px;">⚠️ Important Notes:</h3>
+                    <ul style="color: #4a5568; line-height: 2; list-style-position: inside;">
+                        <li>Never store passwords or sensitive data in cookies</li>
+                        <li>Always set appropriate session timeout values</li>
+                        <li>Invalidate sessions on logout for security</li>
+                        <li>Use HTTPS to protect cookie and session data</li>
+                        <li>Cookies can be disabled by users, plan accordingly</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

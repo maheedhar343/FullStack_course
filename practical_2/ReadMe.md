@@ -1,6 +1,6 @@
 ## **Experiment 2 - Responsive Shopping Cart Application Using Bootstrap 5**
 
- Make the above web application responsive web application using Bootstrap framework.
+ Make the web application responsive using Bootstrap framework.
 
 1. Create project folder: `bootstrap-shopping-cart` Inside it
    create the following subfolders:`css/js/`

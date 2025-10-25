@@ -1,69 +1,90 @@
 ### **Experiment 5 - Java Standalone Application for Database CRUD Operations**
 
-Develop a Java console application that connects to a database and allows the user to manage student records.
+we design a `Java standalone application` that connects to a database (Oracle or MySQL), performs `CRUD (Create, Read, Update, Delete) operations` on a `students` table (`id, name, email, age`), and provides a `menu-driven console interface` for user interaction.
 
-### Prerequisites:
-* MySQL is installed 
-* java version "17.0.1"
-* javac 17.0.1
+**Prerequisites**
 
-### Steps to Perform:
+* Java JDK installed on your system.
+* MySQL or Oracle database installed and running.
+   * [Oracle JDBC Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/21/jjdbc/)
+   * [MySQL Connector/J Documentation](https://dev.mysql.com/doc/connector-j/8.0/en/)
 
-1. Database Setup - Create Database and Table
+* JDBC driver for your database (`mysql-connector-java.jar` for MySQL or `ojdbc8.jar` for Oracle).
+* IDE or code editor like Eclipse, IntelliJ IDEA, or Visual Studio Code.
 
-   * Set up MySQL database
-   * create the students table with specified fields (id, name, email, age).
+**Steps**
 
-![1761106958455](image/ReadMe/1761106958455.png)
+**1: Setup Project Folder**
 
-2. Java Project Setup - Add JDBC Driver
+* Create a new folder named `JavaCRUDApp`.
+* Navigate into the folder.
+* Inside the folder, create your Java source files, for example:
 
-   Create a Java project in your IDE and add the MySQL JDBC driver (mysql-connector-java.jar) to the project's classpath.
-   
-Project Structure:
-```
-StudentCRUDApp/
-├── src/
-│ └── StudentCRUD.java
-├── lib/
-│ └── mysql-connector-java-8.0.33.jar
-└── bin/
-```
+  * `Main.java` for main application logic
+  * `DatabaseConnection.java` for managing database connections
+  * `Student.java` (optional) for student object representation
 
-3. Implement Menu-Driven Application Design
+**2: Setup the Database**
 
-   Design and implement a console menu that provides options for all CRUD operations.
+* Open your database management system (Oracle SQL Developer or MySQL Workbench).
+* Create a database and define the `students` table with the following fields:
 
-Output:
+  * `id` – Primary Key, Integer
+  * `name` – Text/String
+  * `email` – Text/String
+  * `age` – Integer
+
+  ![1761106958455](image/ReadMe/1761106958455.png)
+
+* Insert a few sample records for testing purposes.
+
+**3: Connect Java Application to the Database**
+
+* Include the **JDBC driver** in your project classpath.
+* Use `DriverManager.getConnection()` to establish a connection to the database.
+* Create reusable methods for opening and closing database connections to ensure proper resource management.
+
+**4: Design the Menu-Driven Console Interface**
+
+* Implement a console menu that repeatedly displays options to the user, for example:
+
+  1. Add a new student
+  2. View all students
+  3. Update a student record
+  4. Delete a student record
+  5. Exit the application
+* Use a `do-while` or `while` loop to keep the menu active until the user chooses to exit.
+* Read user input using `Scanner` and validate the choice entered.
 
 ![1761107035651](image/ReadMe/1761107035651.png)
 
-4. Implement CREATE Operation - Add Student
+**5: Implement CRUD Operations**
 
-   Use PreparedStatement to safely insert new student records into the database.
+* `Create`: Prompt the user to enter student details and insert a new record into the database.
+   * Implement CREATE Operation - Add Student
+   ![1761107076066](image/ReadMe/1761107076066.png)
 
-![1761107076066](image/ReadMe/1761107076066.png)
+* `Read`: Retrieve all student records and display them in a formatted table on the console.
+   * Implement READ Operation - View Students
+      ![1761107107272](image/ReadMe/1761107107272.png)
+* `Update`: Allow the user to select a student by `id` and modify details like `name, email, or age`.
+      * Implement UPDATE Operation - Modify Student
+      ![1761107142284](image/ReadMe/1761107142284.png)
+* `Delete`: Allow the user to select a student by `id` and remove the record from the table.
+   * Implement DELETE Operation - Remove Student
+   ![1761107185990](image/ReadMe/1761107185990.png)
+* Organize each operation into separate methods for clarity and maintainability.
+   * Modular Design - Method Structure
+   ![1761107256065](image/ReadMe/1761107256065.png)
 
-5. Implement READ Operation - View Students
+**6: Handle Exceptions and Edge Cases**
 
-   Retrieve and display all student records from the database in a formatted manner.
+* Use `try...catch` blocks to handle `SQLException` and input-related errors.
+* Validate inputs to ensure proper data types (e.g., integers for `id` and `age`).
+* Display user-friendly error messages and allow retrying in case of invalid inputs.
 
-![1761107107272](image/ReadMe/1761107107272.png)
+**7: Verify the Operations**
 
-6. Implement UPDATE Operation - Modify Student
-
-   Update existing student records by ID using PreparedStatement for safe updates.
-
-![1761107142284](image/ReadMe/1761107142284.png)
-
-7. Implement DELETE Operation - Remove Student
-
-   Delete student records by ID with confirmation and success messages.
-
-![1761107185990](image/ReadMe/1761107185990.png)
-
-8. Modular Design - Method Structure
-
-   Create separate methods for each CRUD operation to maintain clean, reusable code.
-
-![1761107256065](image/ReadMe/1761107256065.png)
+* Run the Java application and perform all CRUD operations using the menu.
+* Check the database to ensure that each operation (add, view, update, delete) is correctly executed.
+* Observe how the application behaves with different inputs and ensure smooth user interaction.

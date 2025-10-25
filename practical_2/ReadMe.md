@@ -1,81 +1,65 @@
 ## **Experiment 2 - Responsive Shopping Cart Application Using Bootstrap 5**
 
- Make the web application responsive using Bootstrap framework.
+The objective of this experiment is to `enhance the shopping cart web application` developed in `Project 1` by making it `fully responsive` using the  `Bootstrap framework` .
 
-1. Create project folder `bootstrap-shopping-cart` Inside it
-   create the following subfolders:`css/`and `js/`
-2. Set Up Bootstrap 5
+Students will learn how to use `Bootstrap’s grid system, components, and utilities` to create a flexible, mobile-friendly layout for all pages — registration, login, catalog, and cart.
 
-* In `index.html`, add the Bootstrap 5 CDN links inside the `<head>` and just before `</body>`:
+**Steps**
 
-```html
+**1: Project Setup**
+
+* Open the shopping cart project created in  `Project 1` .
+* Include `Bootstrap CSS CDN links` in all your HTML files (registration, login, catalog, cart).
+
+```
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Bootstrap Bundle JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 ```
 
-* You can also add your own `style.css` (if needed) inside `/css` and link it after Bootstrap.
+* Remove or minimize custom CSS where Bootstrap utilities can be used.
 
-3. Build a Responsive Navigation Bar
+**2: Apply Bootstrap Grid System**
 
-Use the Bootstrap Navbar component with:
+* Use Bootstrap’s `container`, `row`, and `col` classes to organize the page layout.
+* Define columns for different sections such as navigation, product catalog, and cart summary.
+* Make sure all columns are responsive by using appropriate breakpoint classes like:
+   * `.col-sm-12` for small screens
+   * `.col-md-6` or `.col-lg-4` for larger screens
 
-* Brand logo or text on the left
-* Navigation links (Home, Products, Cart)
-* Collapsible menu for mobile screens (`navbar-toggler`, `collapse`, `navbar-collapse`)
+**3: Style Forms and Buttons**
 
-![1761049102442](image/ReadMe/1761049102442.png)
+* Convert all `registration` and `login` forms to Bootstrap forms using:
+ * `.form-control` for input fields
+ * `.btn`, `.btn-primary`, `.btn-outline-*` for buttons
+* Use Bootstrap form groups and spacing utilities for alignment and readability.
+* Ensure forms are centered and resize properly on smaller devices.
 
----
+**4: Design the Navigation Bar**
 
-4. Create `products.html` using Bootstrap Grid
+* Use the `Bootstrap Navbar component` to create a responsive header.
+* Include links for:
+   * Home / Catalog
+   * Cart
+   * Login / Logout
+* Add the `navbar-toggler` for mobile view to collapse the menu into a hamburger icon.
 
-Use the Bootstrap Grid System (`row`, `col-12`, `col-sm-6`, `col-md-4`, `col-lg-3`) to create a responsive layout of product cards.
+**5: Style the Catalog and Cart Pages**
 
-* `row` / `col-*` for grid responsiveness
-* `card`, `card-body`, `card-img-top` for structured product display
-* `btn`, `btn-primary` for consistent buttons
-* `g-4` for grid spacing (gap)
+* Use `Bootstrap cards` to display product details (image, name, price, and add-to-cart button).
+* Apply `Bootstrap grid` to arrange product cards in multiple columns.
+* For the cart page:
+   * Use `Bootstrap tables` or `list groups` to display selected products.
+   * Add buttons for update and delete actions using `.btn-sm` and color classes.
 
----
+**6: Add Responsiveness and Spacing**
 
-5. Create `cart.html` Using Flex & Table Utilities
-
-Use Bootstrap Flex utilities and responsive table/list-group components to display cart items.
-
-* `d-flex`, `justify-content-between`, `align-items-center` for layout alignment
-* `list-group`, `list-group-item` for structured item lists
-* `btn`, `btn-sm`, `btn-danger` for button styling
-
----
-
-6. Replace Custom CSS with Bootstrap Utilities
-
-* Spacing: `m-3`, `p-2`, `mt-4`, `mb-5`
-* Colors: `bg-dark`, `text-light`, `text-muted`
-* Typography: `fw-bold`, `text-center`, `fs-5`
-* Buttons: `btn-outline-secondary`, `btn-primary`
-* Borders: `border`, `rounded`, `shadow-sm`
-
-This ensures a clean, responsive, and maintainable UI.
-
-7. Test Responsiveness
-
-Check the site across:
-
-* Desktop (≥1200px)
-* Tablet (≥768px)
-* Mobile (<576px)
-
-Use Chrome DevTools → “Toggle Device Toolbar” to ensure:
-
-* Navbar collapses correctly
-* Product cards rearrange gracefully
-* Cart layout remains readable on all screens
+* Test the layout on various screen sizes.
+* Use Bootstrap spacing utilities (`.p-*`, `.m-*`, `.mt-*`, `.mb-*`) to manage spacing.
+* Use alignment utilities like `.text-center`, `.justify-content-center`, and `.align-items-center`.
+* Ensure images, buttons, and text resize gracefully on mobile screens.
 
 ---
+
 
 <table>
   <tr>

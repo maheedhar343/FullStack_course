@@ -1,62 +1,69 @@
-### Experiment 3 - Client-Side Form Validation for Bootstrap-Based Shopping Cart Application
+## **Experiment 3 - Client-Side Validation Using JavaScript**
 
-To implement JavaScript-based client-side validation for Registration and Login forms in a responsive shopping cart web application using  Bootstrap 5 validation classes .
+The objective of this experiment is to `implement client-side form validation` for all the pages (registration, login, catalog, and cart) created in `Project 1` and `Project 2`.
+Students will learn how to use `JavaScript` to check and validate user inputs before submitting the data to the server, ensuring that only valid and properly formatted information is accepted.
+
+**Steps**
+
+**1: Navigate into the Project Folder**
+
+* Open the existing project folder created in `Project 2`.
+* Locate the `HTML` files where user input forms are present (such as registration and login pages).
+* Create or open a new JavaScript file named `validation.js` in your project directory.
+* Link the JavaScript file to each HTML page using the `<script>` tag placed before the closing `</body>` tag.
+
+**2: Identify Input Fields to Validate**
+
+* Review all the forms in the application and identify the fields that require validation, such as:
+
+  * Name (should not be empty)
+  * Email (should follow a valid email format)
+  * Password (should meet minimum length requirements)
+  * Confirm Password (should match the password field)
+  * Phone Number (should contain only digits and be of valid length)
+
+**3: Write Validation Functions**
+
+* Use `JavaScript functions` to perform client-side checks before the form is submitted.
+* Use `if` conditions to verify input values and show appropriate error messages.
+* Make use of built-in JavaScript methods like:
+
+  * `document.getElementById()` to access form fields
+  * `.value` to read user input
+  * `.match()` or regular expressions to validate patterns
+* Display alerts or inline messages when invalid data is entered.
+
+**4: Add Event Handling for Forms**
+
+* Attach the validation function to the form’s `onsubmit` or `addEventListener('submit', ...)` event.
+* If the validation fails, prevent the form from submitting using `event.preventDefault()`.
+* Provide clear error messages near the input fields so users can easily correct mistakes.
+
+**5: Validate Specific Forms**
+
+* Registration Page:
+
+  * Check if all required fields are filled.
+  * Validate email, password, and confirm password fields.
+* Login Page:
+
+  * Ensure both email and password fields are not empty.
+* Cart Page:
+
+  * Validate quantity fields to ensure valid numeric values.
+* Contact Page (if present):
+
+  * Validate name, email, and message fields for proper input.
+
+**6: Test the Validation**
+
+* Open each form in the browser and enter both correct and incorrect data.
+* Verify that the form prevents submission when invalid data is entered.
+* Check that all error messages are user-friendly and guide the user to correct input.
+
+---
 
 
-### Steps to Perform
-
-1. Open the Bootstrap-based Shopping Cart project created in  Practical 2 .
-
-Project structure should look like this:
-
-```
-bootstrap-shopping-cart/
-│
-├── index.html
-├── register.html
-├── login.html
-├── css/
-│   └── style.css
-├── js/
-│   └── validation.js
-└── image/
-```
-
-2. Create a New JavaScript File
-
-Inside the `js/` folder, create a new file named: `validation.js`
-
-This file will contain all validation logic for both register and login forms.
-
-3. Add the Registration Form
-
-In `register.html`, design a responsive form using Bootstrap form controls and layout classes.
-
-![1761061896902](image/ReadMe/1761061896902.png)
-
-4. Add the Login Form
-
-In `login.html`, create a simpler version with only email and password fields, using Bootstrap.
-
-![1761061858081](image/ReadMe/1761061858081.png)
-
-
-5. Link the Script
-
-At the end of both `register.html` and `login.html`, link the validation script before `</body>`:
-
-```html
-<script src="js/validation.js"></script>
-```
-
-6. Test the Validation
-
-Test your forms by entering:
-
-* Empty fields → should show red borders and messages.
-* Invalid email → should display a warning.
-* Short password → should highlight the field in red.
-* Valid inputs → should show success message and reset the form.
 
 <table>
 <tr>
